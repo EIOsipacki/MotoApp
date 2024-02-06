@@ -1,0 +1,35 @@
+using MotoApp;
+
+var stack = new Stack<double>();
+stack.Push(item:4.5);
+stack.Push(item: 43);
+stack.Push(item: 33);
+
+double sum = 0.0;
+
+while (stack.Count > 0) 
+{
+    double item = stack.Pop();
+    Console.WriteLine($"Item: {item}");
+    sum += item;
+}
+
+Console.WriteLine($"Sum: {sum}");
+
+var stackString = new Stack<string>();
+stackString.Push(item: "Miasto ");
+stackString.Push(item: "Ulica ");
+stackString.Push(item: "Mieszkanie ");
+
+string sumString = "";
+
+while (stackString.Count > 0)
+{
+    string itemString = stackString.Pop();
+    Console.WriteLine($"Item: {itemString}");
+    sumString += itemString;
+}
+
+Console.WriteLine($"Sum: {sumString}");
+
+
