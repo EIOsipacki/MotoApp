@@ -31,6 +31,12 @@ using MotoApp.Repositories.Extentions;
 
 //lub BEZ
 var employeeRepository = new SqlRepository<Employee>(new MotoAppDbContext(), EmployeeAdded);
+employeeRepository.ItemAdded += EmployeeRepositoryOnItemAdded;
+
+void EmployeeRepositoryOnItemAdded(object? sender, Employee e)
+{
+    Console.WriteLine($"Employee added => {e.FirstName} from {sender?.GetType().Name} ");
+}
 
 AddEmployees(employeeRepository);
 WriteAllToConsole(employeeRepository);
@@ -40,6 +46,8 @@ static void EmployeeAdded(Employee item)
 {
     Console.WriteLine($"{item.FirstName} added");
 }
+
+
 
 void AddEmployees(IRepository<Employee> employeeRepository)
 {

@@ -21,12 +21,17 @@ namespace MotoApp.Repositories
             return _dbSet.ToList();
         }
             
+        //EVENTHANDLER
+        public event EventHandler<T>? ItemAdded;
+
+
+
 
         public SqlRepository(DbContext dbContext, Action<T>? itemAddedCallback = null)
         {            
             _dbContext = dbContext;
             _dbSet = dbContext.Set<T>();
-            _itemAddedCallback = itemAddedCallback;
+            _itemAddedCallback = itemAddedCallback;            
         }
 
         public T? GetById(int id) 
@@ -38,7 +43,7 @@ namespace MotoApp.Repositories
         {
             _dbSet.Add(item);
             _itemAddedCallback?.Invoke(item);
-
+            ItemAdded?.Invoke(this, item);
         }
 
         public void Remove(T item)
