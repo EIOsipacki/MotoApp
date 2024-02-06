@@ -22,16 +22,23 @@ using MotoApp.Repositories.Extentions;
 //    var employee = employeeRepository.GetById(2);
 //    Console.Write(employee.ToString());
 //}
-var itemAdded = new ItemAdded(EmployeeAdded);
-var employeeRepository = new SqlRepository<Employee>(new MotoAppDbContext(), itemAdded);
+
+//var itemAdded = new ItemAdded<Employee>(EmployeeAdded);
+
+//moze być z Action 
+//var itemAdded = new Action<Employee>(EmployeeAdded);
+//var employeeRepository = new SqlRepository<Employee>(new MotoAppDbContext(), itemAdded);
+
+//lub BEZ
+var employeeRepository = new SqlRepository<Employee>(new MotoAppDbContext(), EmployeeAdded);
+
 AddEmployees(employeeRepository);
 WriteAllToConsole(employeeRepository);
 
 
-static void EmployeeAdded(object item)
+static void EmployeeAdded(Employee item)
 {
-    var employee = (Employee)item;
-    Console.WriteLine($"{employee.FirstName} added");
+    Console.WriteLine($"{item.FirstName} added");
 }
 
 void AddEmployees(IRepository<Employee> employeeRepository)
