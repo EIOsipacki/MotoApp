@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using MotoApp.Data;
 using MotoApp.Entities;
 
 //public delegate void ItemAdded<in T>(T item);
@@ -20,7 +21,7 @@ namespace MotoApp.Repositories
             //bez sortowania
             return _dbSet.ToList();
         }
-            
+
         //EVENTHANDLER
         public event EventHandler<T>? ItemAdded;
 
@@ -28,13 +29,13 @@ namespace MotoApp.Repositories
 
 
         public SqlRepository(DbContext dbContext, Action<T>? itemAddedCallback = null)
-        {            
+        {
             _dbContext = dbContext;
             _dbSet = dbContext.Set<T>();
-            _itemAddedCallback = itemAddedCallback;            
+            _itemAddedCallback = itemAddedCallback;
         }
 
-        public T? GetById(int id) 
+        public T? GetById(int id)
         {
             return _dbSet.Find(id);
         }

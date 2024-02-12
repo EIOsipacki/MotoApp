@@ -7,8 +7,7 @@ namespace MotoApp.Data;
 public class MotoAppDbContext : DbContext
 {
     public MotoAppDbContext()
-    {
-        
+    {        
     }
     public DbSet<Employee> Employees => Set<Employee>();
 
@@ -18,5 +17,9 @@ public class MotoAppDbContext : DbContext
     {
         base.OnConfiguring(optionsBuilder);
         optionsBuilder.UseInMemoryDatabase(databaseName: "StorageAppDB");
+//        optionsBuilder.UseSqlServer(
+//                    @"Server=(localdb)\mssqllocaldb;Database=MotoAppDb;Trusted_Connection=True;
+//");
+
     }
 }
