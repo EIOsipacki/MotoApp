@@ -1,7 +1,7 @@
 ﻿
 using System.Text;
 
-namespace MotoApp.Entities;
+namespace MotoApp.Data.Entities;
 
 public class Car : EntityBase
 {
@@ -24,7 +24,7 @@ public class Car : EntityBase
     {
         StringBuilder sb = new(1024);
         sb.AppendLine($"{Name} ID: {Id}");
-        sb.AppendLine($"  Color {Color} Type: {(Type ?? "n/a")}");
+        sb.AppendLine($"  Color {Color} Type: {Type ?? "n/a"}");
         sb.AppendLine($"  Cost {StandardCost:c} Price: {ListPrice:c}");
 
         if (NameLength.HasValue)

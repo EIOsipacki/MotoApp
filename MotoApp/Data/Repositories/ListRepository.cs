@@ -1,12 +1,11 @@
-﻿
-using MotoApp.Entities;
-using MotoApp.Repositories;
-namespace MotoApp.Repositories;
+﻿using MotoApp.Data.Entities;
+
+namespace MotoApp.Data.Repositories;
 
 public class ListRepository<T> : IRepository<T>
-    where T : class, IEntity, new ()
-     //wazna kolejność class i po nim IEntity
-     //ograniczenie new() znaczy ze bazowa klasa po której dziedziczymy musi mieć bezparametrowy konstruktor
+    where T : class, IEntity, new()
+    //wazna kolejność class i po nim IEntity
+    //ograniczenie new() znaczy ze bazowa klasa po której dziedziczymy musi mieć bezparametrowy konstruktor
 
 {
     protected readonly List<T> _items = new();

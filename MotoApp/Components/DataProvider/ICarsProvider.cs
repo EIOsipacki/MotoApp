@@ -1,5 +1,6 @@
-﻿namespace MotoApp.DataProvider;
-using MotoApp.Entities;
+﻿namespace MotoApp.Components.DataProvider;
+
+using MotoApp.Data.Entities;
 
 public interface ICarsProvider
 {

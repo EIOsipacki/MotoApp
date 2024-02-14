@@ -1,11 +1,10 @@
-﻿
-using MotoApp.DataProvider.Extentions;
-using MotoApp.Entities;
-using MotoApp.Repositories;
+﻿using MotoApp.Components.DataProvider.Extentions;
+using MotoApp.Data.Entities;
+using MotoApp.Data.Repositories;
 using System.Drawing;
 using System.Text;
 
-namespace MotoApp.DataProvider;
+namespace MotoApp.Components.DataProvider;
 
 public class CarsProvider : ICarsProvider
 {
@@ -108,14 +107,14 @@ public class CarsProvider : ICarsProvider
     public List<Car> WhereStartsWithAndCostIsGreaterThan(string prefix, decimal cost)
     {
         var cars = _carsRepository.GetAll();
-        return cars.Where(x => x.Name.StartsWith(prefix) && x.StandardCost>cost).ToList();
+        return cars.Where(x => x.Name.StartsWith(prefix) && x.StandardCost > cost).ToList();
     }
 
     public List<Car> WhereColorIs(string color)
     {
         var cars = _carsRepository.GetAll();
         return cars.ByColor("Red").ToList();
-      
+
     }
 
     public Car FirstByColor(string color)
@@ -136,7 +135,7 @@ public class CarsProvider : ICarsProvider
         return cars
             .FirstOrDefault(
                 x => x.Color == color,
-                new Car { Id = -1, Name ="NOT FOUND"});
+                new Car { Id = -1, Name = "NOT FOUND" });
     }
 
     public Car LastByColor(string color)

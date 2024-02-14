@@ -1,13 +1,14 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using MotoApp.Data;
-using MotoApp.Entities;
+using MotoApp.Data.Entities;
+
 
 //public delegate void ItemAdded<in T>(T item);
 //bo wprawadzimy delegate Action 
 
 
-namespace MotoApp.Repositories
+namespace MotoApp.Data.Repositories
 {
     public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
     {
