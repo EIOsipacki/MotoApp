@@ -1,8 +1,7 @@
-﻿
-using MotoApp.Components.CarReader.Models;
+﻿using MotoApp.Components.CsvReader.Models;
 using System.Runtime.CompilerServices;
 
-namespace MotoApp.Components.CarReader.Extensions;
+namespace MotoApp.Components.CsvReader.Extensions;
 
 public static class CarExtentions
 {
@@ -17,14 +16,14 @@ public static class CarExtentions
                 Year = int.Parse(columns[0]),
                 Manufacturer = columns[1],
                 Name = columns[2],
-                Displacement = double.Parse(columns[3]),
+                Displacement = (columns[3]),
                 Cylinders = int.Parse(columns[4]),
                 City = int.Parse(columns[5]),
                 Highway = int.Parse(columns[6]),
                 Combined = int.Parse(columns[7])
-             };
+            };
         }
-        
+
 
     }
 }

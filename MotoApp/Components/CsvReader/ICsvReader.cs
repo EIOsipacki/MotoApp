@@ -1,7 +1,6 @@
-﻿
-using MotoApp.Components.CarReader.Models;
+﻿using MotoApp.Components.CsvReader.Models;
 
-namespace MotoApp.Components.CarReader;
+namespace MotoApp.Components.CsvReader;
 
 public interface ICsvReader
 {

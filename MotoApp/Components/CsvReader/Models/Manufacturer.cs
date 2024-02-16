@@ -1,8 +1,6 @@
-﻿
+﻿namespace MotoApp.Components.CsvReader.Models;
 
-namespace MotoApp.Components.CarReader.Models;
-
-internal class Manufacturer
+public class Manufacturer
 {
 
     public string Name { get; set; }

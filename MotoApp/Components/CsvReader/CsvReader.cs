@@ -1,8 +1,7 @@
-﻿
-using MotoApp.Components.CarReader.Extensions;
-using MotoApp.Components.CarReader.Models;
+﻿using MotoApp.Components.CsvReader.Extensions;
+using MotoApp.Components.CsvReader.Models;
 
-namespace MotoApp.Components.CarReader;
+namespace MotoApp.Components.CsvReader;
 
 internal class CsvReader : ICsvReader
 {
@@ -27,7 +26,7 @@ internal class CsvReader : ICsvReader
             return new List<Manufacturer>();
         }
 
-        var manufarturers = 
+        var manufarturers =
             File.ReadAllLines(filePath)
             .Where(x => x.Length > 1)
             .Select(x =>
@@ -41,5 +40,5 @@ internal class CsvReader : ICsvReader
                 };
             });
         return manufarturers.ToList();
-     }
+    }
 }
