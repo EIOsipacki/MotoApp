@@ -1,24 +1,29 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using MotoApp;
 using MotoApp.Components.CsvReader;
-using MotoApp.Components.DataProvider;
+//using MotoApp.Components.DataProvider;
+using MotoApp.Data;
 using MotoApp.Data.Entities;
 using MotoApp.Data.Repositories;
 
 var services = new ServiceCollection();
 services.AddSingleton<IApp, App>();
 //services.AddSingleton<IRepository<Employee>, ListRepository<Employee>>();
-//services.AddSingleton<IRepository<Car>, ListRepository<Car>>();
+services.AddSingleton<IRepository<Car>, ListRepository<Car>>();
 //services.AddSingleton<ICarsProvider, CarsProvider>();
 services.AddSingleton<ICsvReader, CsvReader>();
 
+//SQL 
+services.AddDbContext<MotoAppDbContext>(options => options
+    .UseSqlServer("Data Source=.\\sqlexpress;Initial Catalog=MotoAppStorage;Integrated Security=True;Encrypt=False"));
+// w przyszości to zachowywać w pliku konfiguracyjnym 
 
 
 var serviceProvider = services.BuildServiceProvider();
 var app = serviceProvider.GetRequiredService<IApp>()!;
 app.Run();
-
-
+//Data Source=.\SQLEXPRESS;Initial Catalog=TestStorage;Integrated Security=True;Encrypt=False
 
 
 //using MotoApp.Repositories;
@@ -151,6 +156,6 @@ app.Run();
 //}
 
 
- 
+
 
 

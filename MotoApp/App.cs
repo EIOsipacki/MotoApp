@@ -8,27 +8,96 @@ namespace MotoApp;
 //using System;
 //using MotoApp.Components;
 using MotoApp.Components.CsvReader;
-using MotoApp.Components.CsvReader.Models;
+//using MotoApp.Components.CsvReader.Models;
+using MotoApp.Data;
+using MotoApp.Data.Entities;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
+
 public class App : IApp
 {
     private readonly ICsvReader _csvReader;
+    private readonly MotoAppDbContext _motoAppDbContext;
 
-    public App(ICsvReader csvReader)
+    public App(
+       ICsvReader csvReader,
+        MotoAppDbContext motoAppDbContext)
     {
         _csvReader = csvReader;
-
+        _motoAppDbContext = motoAppDbContext;
+        _motoAppDbContext.Database.EnsureCreated(); //czy stworzana BD jesli nie to 
     }
     public void Run()
     {
-        CreateXML();
-        QueryXML(); //read from xml file
+        //CreateXML();
+        //QueryXML(); //read from xml file
+         
+        //SQL
+        InsertDataToSqlBd();
+        InsertDataToSqlBdManufacturer();
 
+        Console.WriteLine(" Klik Any key");
+        Console.ReadLine();
+
+        var carsFromDb = _motoAppDbContext.Cars.ToList();
+                  
+        foreach (var item in carsFromDb)
+        {
+            Console.WriteLine($"\t{item.Name}: {item.Combined}");
+        }
+        Console.WriteLine(" Klik Any key");
+        Console.ReadLine();
+
+        var mansFromDb = _motoAppDbContext.Manufacturers.ToList();
+
+        foreach (var item in mansFromDb)
+        {
+            Console.WriteLine($"Manufacturer: {item.Name}");
+            Console.WriteLine($"\t{item.Country}: {item.Year}");
+        }
+
+    }
+
+    private void InsertDataToSqlBd()
+    {
+        var cars = _csvReader.ProcessCars("Resources\\Files\\fuel.csv");
+        foreach (var item in cars)
+        {
+            _motoAppDbContext.Cars.Add(new Car()
+            {
+                Manufacturer = item.Manufacturer,
+                Name = item.Name,
+                Year = item.Year,
+                City = item.City,
+                Combined = item.Combined,
+                Cylinders = item.Cylinders,
+                //Displacement = item.Displacement,
+                Highway = item.Highway
+            });
+        }
+        _motoAppDbContext.SaveChanges();
+    }
+
+    private void InsertDataToSqlBdManufacturer()
+    {
+        //items = manufacturers
+        var manufacturers= _csvReader.ProcessManufacturers("Resources\\Files\\manufacturers.csv");
+        foreach (var man in manufacturers)
+        {
+            _motoAppDbContext.Manufacturers.Add(new Manufacturer()
+            {
+                Name = man.Name,
+                Country = man.Country,
+                Year = man.Year
+                
+            });
+        }
+        _motoAppDbContext.SaveChanges();
     }
 
     private static void QueryXML()
