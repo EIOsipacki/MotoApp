@@ -34,7 +34,8 @@ public class MotoAppDbContext : DbContext
 
     public DbSet<Manufacturer> Manufacturers { get; set; }
 
-
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.LogTo(Console.WriteLine);
 
 
 

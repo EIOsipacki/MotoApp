@@ -8,6 +8,7 @@ namespace MotoApp;
 //using System;
 //using MotoApp.Components;
 using MotoApp.Components.CsvReader;
+using MotoApp.Components.CsvReader.Models;
 //using MotoApp.Components.CsvReader.Models;
 using MotoApp.Data;
 using MotoApp.Data.Entities;
@@ -17,7 +18,8 @@ using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-
+using Car = Data.Entities.Car;
+using Manufacturer = Data.Entities.Manufacturer;
 
 public class App : IApp
 {
@@ -36,23 +38,80 @@ public class App : IApp
     {
         //CreateXML();
         //QueryXML(); //read from xml file
-         
+
         //SQL
-        InsertDataToSqlBd();
-        InsertDataToSqlBdManufacturer();
+        //InsertDataToSqlBd();
+        //InsertDataToSqlBdManufacturer();
 
-        Console.WriteLine(" Klik Any key");
-        Console.ReadLine();
+        //Console.WriteLine(" Klik Any key");
+        //Console.ReadLine();
+        //ReadCarsFromBdSql();
+        //Console.ReadLine();
+        //ReadManufacturersFromBdMsql();
 
+
+        //SQL LINQ GROUP
+        ReadGroupedCarsFromDb();
+
+        //EDIT DANE BD - USIWANIE
+        //var cayman = ReadFirst("Cayman");
+        //cayman.Name = "Mój Samochód";
+        //_motoAppDbContext.SaveChanges();
+        ////usun
+        //var cayman1 = ReadFirst("Cayman");
+        //_motoAppDbContext.Cars.Remove(cayman1);
+        //_motoAppDbContext.SaveChanges();
+    }
+
+
+    private Car? ReadFirst(string name)
+    {
+        return _motoAppDbContext.Cars.FirstOrDefault(x => x.Name == name);
+    }
+
+
+
+
+    public void ReadGroupedCarsFromDb()
+    {
+        var groups = _motoAppDbContext
+            .Cars
+            .GroupBy(x => x.Manufacturer)
+            .Select(x => new
+            {
+                Name = x.Key,
+                Cars = x.ToList()
+            })
+            .ToList();
+
+        foreach (var item in groups)
+        {
+            Console.WriteLine(item.Name);
+            Console.WriteLine("=========");
+
+            foreach (var car in item.Cars)
+            {
+                Console.WriteLine($"\t{car.Name}: {car.Combined}");
+            }
+            Console.WriteLine();
+        }
+
+    }
+
+    private void ReadCarsFromBdSql()
+    {
         var carsFromDb = _motoAppDbContext.Cars.ToList();
-                  
+
         foreach (var item in carsFromDb)
         {
             Console.WriteLine($"\t{item.Name}: {item.Combined}");
         }
         Console.WriteLine(" Klik Any key");
         Console.ReadLine();
+    }
 
+    private void ReadManufacturersFromBdMsql()
+    {
         var mansFromDb = _motoAppDbContext.Manufacturers.ToList();
 
         foreach (var item in mansFromDb)
@@ -60,7 +119,6 @@ public class App : IApp
             Console.WriteLine($"Manufacturer: {item.Name}");
             Console.WriteLine($"\t{item.Country}: {item.Year}");
         }
-
     }
 
     private void InsertDataToSqlBd()
@@ -86,7 +144,7 @@ public class App : IApp
     private void InsertDataToSqlBdManufacturer()
     {
         //items = manufacturers
-        var manufacturers= _csvReader.ProcessManufacturers("Resources\\Files\\manufacturers.csv");
+        var manufacturers = _csvReader.ProcessManufacturers("Resources\\Files\\manufacturers.csv");
         foreach (var man in manufacturers)
         {
             _motoAppDbContext.Manufacturers.Add(new Manufacturer()
@@ -94,7 +152,7 @@ public class App : IApp
                 Name = man.Name,
                 Country = man.Country,
                 Year = man.Year
-                
+
             });
         }
         _motoAppDbContext.SaveChanges();
